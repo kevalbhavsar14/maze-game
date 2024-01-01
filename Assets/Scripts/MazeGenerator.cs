@@ -42,13 +42,10 @@ public class MazeGenerator : MonoBehaviour
         Physics.Raycast(transform.position + origin, direction, out hit, direction.magnitude);
         if (hit.collider != null)
         {
-#if UNITY_EDITOR
             DestroyImmediate(hit.collider.gameObject);
-#else
-            DestroyImmediate(hit.collider.gameObject);
-#endif
         }
 
+        // Get unvisited neighbours
         List<Vector2> neighbours = new List<Vector2>();
         if (y > 0 && visitedCells[y - 1, x] != true)
         {
@@ -67,6 +64,7 @@ public class MazeGenerator : MonoBehaviour
             neighbours.Add(new Vector2(x + 1, y));
         }
         
+        // visit the unvisited neighoubouring cells recursively in random order
         neighbours.Shuffle();
         foreach (Vector2 v in neighbours)
         {
@@ -85,14 +83,10 @@ public class MazeGenerator : MonoBehaviour
     {
         List<Transform> childrenList = new List<Transform>();
         //Adds all children to the list
-        foreach (Transform childTrans in transform)
-            childrenList.Add(childTrans);
+        foreach (Transform childTransform in transform)
+            childrenList.Add(childTransform);
 
         foreach (Transform child in childrenList)
-#if UNITY_EDITOR
             DestroyImmediate(child.gameObject);
-#else
-            DestroyImmediate(child.gameObject);
-#endif
     }
 }
